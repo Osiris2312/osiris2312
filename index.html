@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legion Squad | Продукты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --roblox: #ff4655;
+            --rust: #f0a732;
+            --exploit: #8a63ff;
+            --other: #888;
+            --discord: #5865F2;
+            --bg-dark: #0a0a0a; /* Более глубокий чёрный */
+            --card-dark: #1a1a1a; /* Чуть светлее для контраста */
+            --text-light: #f0f0f0;
+            --text-muted: #aaa;
+            --danger: #ff4d4d;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(138, 99, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(138, 99, 255, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(138, 99, 255, 0.5); }
+        }
+        
+        @keyframes warning {
+            0% { color: var(--text-light); }
+            50% { color: var(--danger); }
+            100% { color: var(--text-light); }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        /* Кнопка "Наверх" */
+        .scroll-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--exploit);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 99;
+            box-shadow: 0 3px 15px rgba(138, 99, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        
+        .scroll-top:hover {
+            background: #7a4dff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(138, 99, 255, 0.6);
+        }
+        
+        /* Остальные стили */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        h1 {
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(138, 99, 255, 0.3);
+        }
+        
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1em;
+        }
+        
+        .warning {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 77, 77, 0.1);
+            border-radius: 8px;
+            margin: 20px 0;
+            animation: warning 2s infinite;
+            border: 1px solid var(--danger);
+        }
+        
+        .section {
+            background: var(--card-dark);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 3px solid;
+            animation: fadeIn 0.8s ease-out;
+            transition: transform 0.3s;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .roblox {
+            border-left-color: var(--roblox);
+        }
+        
+        .rust {
+            border-left-color: var(--rust);
+        }
+        
+        .exploit {
+            border-left-color: var(--exploit);
+        }
+        
+        .other {
+            border-left-color: var(--other);
+        }
+        
+        .section-title {
+            font-size: 1.4em;
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+        
+        .roblox .section-title {
+            color: var(--roblox);
+        }
+        
+        .rust .section-title {
+            color: var(--rust);
+        }
+        
+        .exploit .section-title {
+            color: var(--exploit);
+        }
+        
+        .other .section-title {
+            color: var(--other);
+        }
+        
+        .product {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .product:hover {
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            padding: 15px;
+        }
+        
+        .product:last-child {
+            border-bottom: none;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .status {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .status-update {
+            background: rgba(230, 126, 34, 0.15);
+            color: #e67e22;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-down {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+        
+        .status-dev {
+            background: rgba(39, 174, 96, 0.15);
+            color: #27ae60;
+        }
+        
+        .status-work {
+            background: rgba(41, 128, 185, 0.15);
+            color: #2980b9;
+        }
+        
+        .status-warning {
+            background: rgba(255, 77, 77, 0.15);
+            color: var(--danger);
+        }
+        
+        .buy-link {
+            color: white;
+            background: #2ecc71;
+            padding: 7px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .buy-link:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .discord-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 50px auto 0;
+            padding: 14px 25px;
+            background: var(--discord);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            max-width: 300px;
+            transition: all 0.3s;
+            animation: glow 3s infinite;
+        }
+        
+        .discord-link:hover {
+            background: #4752c4;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4);
+        }
+        
+        .discord-icon {
+            width: 22px;
+            height: 22px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+        
+        .badge {
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-light);
+        }
+        
+        .version-badge {
+            font-size: 0.8em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(138, 99, 255, 0.2);
+            color: var(--exploit);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .warning-icon {
+            color: var(--danger);
+            margin-right: 8px;
+        }
+
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background-color: var(--card-dark);
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 700px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-light);
+        }
+        
+        .rules-list {
+            padding-left: 20px;
+        }
+        
+        .rules-list li {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .rules-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--exploit);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 90;
+            box-shadow: 0 3px 15px rgba(138, 99, 255, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .rules-btn:hover {
+            background: #7a4dff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(138, 99, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Legion Squad</h1>
+        <p class="subtitle">Продукты и разработки</p>
+    </header>
+    
+    <div class="warning">
+        <i class="fas fa-exclamation-triangle warning-icon"></i>
+        Внимание! Все продукты предназначены только для образовательных целей
+    </div>
+    
+    <div class="section roblox">
+        <h2 class="section-title">
+            <i class="fas fa-gamepad"></i>
+            Roblox
+        </h2>
+        
+        <div class="product">
+            <div class="product-name">
+                QuantumExploit <span class="version-badge">v1.4.3</span>
+            </div>
+            <div class="product-info">
+                <div class="status status-update">Обновление</div>
+                <i class="fas fa-sync-alt fa-spin" style="color: #e67e22;"></i>
+            </div>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">
+                GrayLO <span class="version-badge">v2.0</span>
+            </div>
+            <div class="product-info">
+                <div class="status status-down">Не работает</div>
+                <i class="fas fa-times-circle" style="color: #e74c3c;"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section rust">
+        <h2 class="section-title">
+            <i class="fas fa-skull"></i>
+            Pirate Rust
+        </h2>
+        
+        <div class="product">
+            <div class="product-name">Vlone <span class="badge">PRO</span></div>
+            <a href="http://www.vvvlone.store/" class="buy-link">
+                <i class="fas fa-shopping-cart"></i> Купить
+            </a>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">Quantum Internal</div>
+            <div class="product-info">
+                <div class="status status-dev">В разработке</div>
+                <i class="fas fa-code" style="color: #27ae60;"></i>
+            </div>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">Quantum External</div>
+            <div class="product-info">
+                <div class="status status-down">Не работает</div>
+                <i class="fas fa-times-circle" style="color: #e74c3c;"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section exploit">
+        <h2 class="section-title">
+            <i class="fas fa-bolt"></i>
+            Exploit
+        </h2>
+        <div class="product">
+            <div class="product-name">Скоро будет...</div>
+            <div class="status status-dev">В планах</div>
+        </div>
+    </div>
+    
+    <div class="section other">
+        <h2 class="section-title">
+            <i class="fas fa-cubes"></i>
+            Другие проекты
+        </h2>
+        
+        <div class="product">
+            <div class="product-name">QuantumRAT</div>
+            <div class="product-info">
+                <div class="status status-dev">В разработке</div>
+                <i class="fas fa-code" style="color: #27ae60;"></i>
+            </div>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">Legion Stealer</div>
+            <div class="product-info">
+                <div class="status status-dev">В разработке</div>
+                <i class="fas fa-code" style="color: #27ae60;"></i>
+            </div>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">LegionWinlocker</div>
+            <div class="product-info">
+                <div class="status status-warning">В разработке</div>
+                <i class="fas fa-lock" style="color: var(--danger);"></i>
+            </div>
+        </div>
+        
+        <div class="product">
+            <div class="product-name">Legion Optimization <span class="badge">FREE</span></div>
+            <div class="product-info">
+                <div class="status status-work">Работает</div>
+                <i class="fas fa-check-circle" style="color: #2980b9;"></i>
+            </div>
+        </div>
+    </div>
+    
+    <a href="https://discord.gg/CRrvg5YAUV" class="discord-link">
+        <svg class="discord-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v19.056c0 1.368-1.104 2.472-2.46 2.472H16.476c-.552 0-.888-.408-.888-.96v-3.024c0-.552.336-.96.888-.96h3.072V2.472H4.392v16.584h3.072c.552 0 .888.408.888.96v3.024c0 .552-.336.96-.888.96H2.46C1.104 24 0 22.896 0 21.528V2.472C0 1.104 1.104 0 2.46 0h17.08zm-6.768 6.144c-1.008 0-1.824.816-1.824 1.824s.816 1.824 1.824 1.824 1.824-.816 1.824-1.824-.816-1.824-1.824-1.824zm-6.96 0c-1.008 0-1.824.816-1.824 1.824s.816 1.824 1.824 1.824 1.824-.816 1.824-1.824-.816-1.824-1.824-1.824zm3.48 12.144c0-1.656 1.344-3 3-3s3 1.344 3 3-1.344 3-3 3-3-1.344-3-3z"/>
+        </svg>
+        Присоединиться к Discord
+    </a>
+
+    <!-- Кнопка "Наверх" -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Кнопка и модальное окно правил -->
+    <button class="rules-btn" id="rulesBtn">
+        <i class="fas fa-scroll"></i> Правила
+    </button>
+
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="margin-top: 0; color: var(--exploit);">Правила использования</h2>
+            <ol class="rules-list">
+                <li>Администрация не несёт ответственности за действия пользователей, совершённые в рамках данного Discord-сервера.</li>
+                <li>Администрация не несёт ответственности за последствия использования программного обеспечения, полученного через сервер, включая случаи мошенничества со стороны третьих лиц или запуск потенциально опасных программ. Все риски лежат исключительно на пользователе.</li>
+                <li>Продажа программного обеспечения осуществляется на условиях "как есть". В случае некорректного поведения пользователя (угрозы, спам, неадекватные обращения) администрация оставляет за собой право аннулировать доступ к продукту без возврата средств.</li>
+                <li>Запрещается распространение сторонних ссылок на непроверенные ресурсы, реклама конкурентных проектов или любые другие формы несанкционированного продвижения без согласия администрации.</li>
+                <li>Обращения к администрации должны быть четко сформулированы. За некорректные запросы или спам могут быть применены санкции на усмотрение модерации.</li>
+            </ol>
+            <p style="font-style: italic; color: var(--text-muted);">
+                Используя наши продукты, вы автоматически соглашаетесь с этими правилами.
+            </p>
+        </div>
+    </div>
+    
+    <div class="last-updated">
+        Последнее обновление: 15.07.2023
+    </div>
+
+    <script>
+        // Кнопка "Наверх"
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Модальное окно с правилами
+        const modal = document.getElementById("rulesModal");
+        const btn = document.getElementById("rulesBtn");
+        const span = document.getElementsByClassName("close-modal")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
